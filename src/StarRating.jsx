@@ -11,10 +11,6 @@ const starContainerStyle = {
   display: 'flex',
 }
 
-StarRating.propTypes = {
-  maxRating: PropTypes.number,
-}
-
 export default function StarRating({
   maxRating = 5,
   color = '#fcc419',
