@@ -62,11 +62,7 @@ export default function App() {
 
   return (
     <>
-      <div>
-        <StarRating color='blue' maxRating={10} onSetRating={setMovieRating} />
-        <p>This movie was rated X stars</p>
-      </div>
-      <StarRating
+      {/* <StarRating
         maxRating={5}
         messages={['Terrible', 'Bad', 'Okay', 'Good', 'Amazing']}
       />
@@ -76,8 +72,8 @@ export default function App() {
         size='34'
         className='test'
         defaultRating={3}
-      />
-      {/* <NavBar>
+      /> */}
+      <NavBar>
         <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
@@ -89,7 +85,7 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMoviesList watched={watched} />
         </Box>
-      </Main> */}
+      </Main>
     </>
   )
 }
