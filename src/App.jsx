@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import NavBar from './NavBar'
 import Main from './Main'
+import Search from './Search'
+import NumResults from './NumResults'
+import ListBox from './ListBox'
+import WatchedBox from './WatchedBox'
+import MovieList from './MovieList'
 
 const tempMovieData = [
   {
@@ -28,11 +33,20 @@ const tempMovieData = [
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData)
+  const [query, setQuery] = useState('')
 
   return (
     <>
-      <NavBar movies={movies} />
-      <Main movies={movies} />
+      <NavBar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResults movies={movies} />
+      </NavBar>
+      <Main>
+        <ListBox>
+          <MovieList movies={movies} />
+        </ListBox>
+        <WatchedBox />
+      </Main>
     </>
   )
 }
