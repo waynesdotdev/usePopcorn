@@ -7,6 +7,7 @@ import Box from './Box'
 import MovieList from './MovieList'
 import WatchedSummary from './WatchedSummary'
 import WatchedMoviesList from './WatchedMoviesList'
+import StarRating from './StarRating'
 
 const tempMovieData = [
   {
@@ -61,7 +62,22 @@ export default function App() {
 
   return (
     <>
-      <NavBar>
+      <div>
+        <StarRating color='blue' maxRating={10} onSetRating={setMovieRating} />
+        <p>This movie was rated X stars</p>
+      </div>
+      <StarRating
+        maxRating={5}
+        messages={['Terrible', 'Bad', 'Okay', 'Good', 'Amazing']}
+      />
+      <StarRating
+        maxRating={5}
+        color='red'
+        size='34'
+        className='test'
+        defaultRating={3}
+      />
+      {/* <NavBar>
         <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
@@ -73,7 +89,7 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMoviesList watched={watched} />
         </Box>
-      </Main>
+      </Main> */}
     </>
   )
 }
