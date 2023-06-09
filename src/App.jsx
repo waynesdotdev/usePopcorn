@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NavBar from './NavBar'
 import Main from './Main'
 import Search from './Search'
@@ -7,7 +7,8 @@ import Box from './Box'
 import MovieList from './MovieList'
 import WatchedSummary from './WatchedSummary'
 import WatchedMoviesList from './WatchedMoviesList'
-import StarRating from './StarRating'
+import Loader from './Loader'
+import ErrorMessage from './ErrorMessage'
 
 const tempMovieData = [
   {
@@ -55,31 +56,61 @@ const tempWatchedData = [
   },
 ]
 
+const key = '8cc41363'
+
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData)
+  const [movies, setMovies] = useState([])
+  const [watched, setWatched] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const [query, setQuery] = useState('')
-  const [watched, setWatched] = useState(tempWatchedData)
+
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        setIsLoading(true)
+        setError('')
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+        )
+
+        if (!res.ok)
+          throw new Error('Something went wrong with fetching movies.')
+
+        const data = await res.json()
+
+        if (data.Response === 'False') throw new Error('Movie Not Found')
+
+        setMovies(data.Search)
+      } catch (err) {
+        console.error(err.message)
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (!query.length) {
+      setMovies([])
+      setError('')
+      return
+    }
+
+    fetchMovies()
+  }, [query])
 
   return (
     <>
-      {/* <StarRating
-        maxRating={5}
-        messages={['Terrible', 'Bad', 'Okay', 'Good', 'Amazing']}
-      />
-      <StarRating
-        maxRating={5}
-        color='red'
-        size='34'
-        className='test'
-        defaultRating={3}
-      /> */}
       <NavBar>
         <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
         <Box>
-          <MovieList movies={movies} />
+          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <WatchedSummary watched={watched} />
