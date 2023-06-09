@@ -54,6 +54,14 @@ export default function MovieDetails({
     }
   }, [title])
 
+  useEffect(() => {
+    document.addEventListener('keydown', function (e) {
+      if (e.code === 'Escape') {
+        onCloseMovie()
+      }
+    })
+  }, [onCloseMovie])
+
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedId,
