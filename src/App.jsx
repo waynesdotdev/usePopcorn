@@ -60,7 +60,7 @@ const tempWatchedData = [
 const key = '8cc41363'
 
 export default function App() {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState('inception')
   const [movies, setMovies] = useState([])
   const [watched, setWatched] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -77,6 +77,10 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched(watched => [...watched, movie])
+  }
+
+  function handleDeleteWatched(id) {
+    setWatched(watched => watched.filter(movie => movie.imdbID !== id))
   }
 
   useEffect(() => {
@@ -139,7 +143,10 @@ export default function App() {
           ) : (
             <>
               <WatchedSummary watched={watched} />
-              <WatchedMoviesList watched={watched} />
+              <WatchedMoviesList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
             </>
           )}
         </Box>
